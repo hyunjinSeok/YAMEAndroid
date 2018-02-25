@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/participant_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/participant_background">
+
+    <!--<Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        />-->
+
+    <!--<ImageView
+        android:id="@+id/background_lion"
+        android:layout_width="214dp"
+        android:layout_height="145dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="161dp"
+        android:layout_marginStart="161dp"
+        android:layout_toEndOf="@+id/btn_back"
+        android:layout_toRightOf="@+id/btn_back" />-->
+
+    <ImageView
+        android:id="@+id/background_lion"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:id="@+id/participant_list"
+        android:layout_width="match_parent"
+        android:layout_height="265dp"
+        android:layout_above="@+id/background_lion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:divider="#9F81F7"
+        android:dividerHeight="1.5dp" />
+
+    <TextView
+        android:id="@+id/participant_textView"
+        android:layout_width="match_parent"
+        android:layout_height="98dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Staff"
+        android:textStyle="italic"
+        android:textColor="#BEF781"
+        android:textSize="70dp"
+        android:gravity="center"
+        />
+
+</RelativeLayout>

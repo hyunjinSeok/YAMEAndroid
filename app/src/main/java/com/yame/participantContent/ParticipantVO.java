@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by Administrator on 2018-02-25.
  */
-//2시까지 가즈아!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//2시까지 가즈아!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 public class ParticipantVO {
 
     private String num = "";

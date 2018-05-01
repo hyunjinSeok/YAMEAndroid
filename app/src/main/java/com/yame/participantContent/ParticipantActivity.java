@@ -111,7 +111,7 @@ public class ParticipantActivity extends AppCompatActivity {
             for(int i = 0; i < list.size(); i++)
             {
                 //participantListAdapter.addItem(list.get(i).getNum(), list.get(i).getName(), ContextCompat.getDrawable(getApplicationContext(), getResources().getIdentifier("pro"+ String.valueOf(i), "drawable", getPackageName())));
-                participantListAdapter.addItem(list.get(i).getNum(), list.get(i).getName(), "prof" + String.valueOf(i / 4));
+                participantListAdapter.addItem(list.get(i).getNum(), list.get(i).getName(), "prof" + String.valueOf(i % 4));
                 System.out.println("번호 : " + list.get(i).getNum() + " 이름 : " + list.get(i).getName() + " 이미지 : " + "prof" + String.valueOf(i));
             }
 

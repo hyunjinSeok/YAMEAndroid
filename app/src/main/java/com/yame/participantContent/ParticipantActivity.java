@@ -10,10 +10,14 @@ import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.yame.common.XmlParse;
 import com.yame.yameandroid.R;
+
+import java.util.ArrayList;
 
 public class ParticipantActivity extends AppCompatActivity {
 
@@ -21,9 +25,10 @@ public class ParticipantActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private TelephonyManager telephonyManager;
     private PhoneStateListener phoneStateListener;
+    private XmlParse xmlParse;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -39,7 +44,13 @@ public class ParticipantActivity extends AppCompatActivity {
 
         listView = (ListView)findViewById(R.id.participant_list);
 
-        listView.setAdapter(putData());
+        try {
+            listView.setAdapter(putData());
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+        }
+
 
         mediaPlayer = MediaPlayer.create(this, R.raw.participant_bgm);
         mediaPlayer.setLooping(true);
@@ -79,9 +90,50 @@ public class ParticipantActivity extends AppCompatActivity {
         });*/
     }
 
-    private ParticipantListAdapter putData()
+    private ParticipantListAdapter putData() throws Exception
     {
         ParticipantListAdapter participantListAdapter = new ParticipantListAdapter();
+        try {
+            ArrayList<ParticipantVO> list;
+            xmlParse = new XmlParse();
+            System.out.println("####parseStart");
+            xmlParse.start();
+
+            try{
+                xmlParse.join();
+            } catch (Exception te){
+                Toast.makeText(getApplicationContext(), te.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            list = xmlParse.exportArr();
+
+            System.out.println("############### 리스트 사이즈 : " + list.size());
+            for(int i = 0; i < list.size(); i++)
+            {
+                //participantListAdapter.addItem(list.get(i).getNum(), list.get(i).getName(), ContextCompat.getDrawable(getApplicationContext(), getResources().getIdentifier("pro"+ String.valueOf(i), "drawable", getPackageName())));
+                participantListAdapter.addItem(list.get(i).getNum(), list.get(i).getName(), "prof" + String.valueOf(i / 4));
+                System.out.println("번호 : " + list.get(i).getNum() + " 이름 : " + list.get(i).getName() + " 이미지 : " + "prof" + String.valueOf(i));
+            }
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            System.out.println(e.toString());
+            /*
+            participantListAdapter.addItem("0", "석현진", ContextCompat.getDrawable(getApplicationContext(), R.drawable.prof0));
+            participantListAdapter.addItem("1", "송승기", ContextCompat.getDrawable(getApplicationContext(), R.drawable.prof1));
+            participantListAdapter.addItem("2", "성효진", ContextCompat.getDrawable(getApplicationContext(), R.drawable.prof2));
+            participantListAdapter.addItem("3", "김수연", ContextCompat.getDrawable(getApplicationContext(), R.drawable.prof3));
+
+            */
+
+            /*
+            participantListAdapter.addItem("0", "석현진", "prof0");
+            participantListAdapter.addItem("1", "송승기", "prof1");
+            participantListAdapter.addItem("2", "성효진", "prof2");
+            participantListAdapter.addItem("3", "김수연", "prof3");
+            */
+        }
 
        /* new Thread() {
             public void run() {
@@ -141,11 +193,6 @@ public class ParticipantActivity extends AppCompatActivity {
         /*for (int i = 0; i < 4; i++)
             participantListAdapter.addItem("name_" + i, "contents_" + i);*/
             //participantListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon), "name_" + i, "contents_" + i);
-
-        participantListAdapter.addItem("0", "석현진", "prof0");
-        participantListAdapter.addItem("1", "송승기", "prof1");
-        participantListAdapter.addItem("2", "성효진", "prof2");
-        participantListAdapter.addItem("3", "김수연", "prof3");
 
         return participantListAdapter;
     }

@@ -18,12 +18,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Created by Administrator on 2018-02-25.
  */
 
-public class XmlParse {
+public class XmlParse extends Thread{
 
     ArrayList<ParticipantVO> list = new ArrayList<ParticipantVO>();
+    Object syncKey1 = new Object();
+    Object syncKey2 = new Object();
 
-    public void parseStart() throws Exception{
-        URL url = new URL("http://175.214.164.105:8282/YAMEWeb/com/userlist.do?tableName=test_table");
+    public void parseStart() throws Exception {
+        System.out.println("################0 startMethod !!");
+        URL url = new URL("http://59.20.74.243:8282/YAMEWeb/com/userlist.do?tableName=test_table");
         URLConnection connection = url.openConnection();
 
         Document doc = parseXML(connection.getInputStream());
@@ -33,7 +36,8 @@ public class XmlParse {
 
         Node item;
 
-        System.out.println("tableName : " + tableName.getTextContent());
+        System.out.println("################1 listCount : " + itemList.getLength());
+
         for(int i = 0; i < itemList.getLength();i++)
         {
             item = itemList.item(i).getFirstChild();
@@ -45,19 +49,18 @@ public class XmlParse {
                     //System.out.print("번호 : " + item.getTextContent());
                     participantVO.setNum(item.getTextContent());
                 else if("name".equals(item.getNodeName()))
+                {
                     //System.out.println(" 이름 : " + item.getTextContent());
                     participantVO.setName(item.getTextContent());
+                    list.add(participantVO);
+                }
 
-                list.add(participantVO);
                 if(item.getNextSibling() == null)
                     break;
             }
         }
-    }
 
-    public ArrayList<ParticipantVO> exportArr()
-    {
-        return list;
+        System.out.println("################2 listCount : " + itemList.getLength());
     }
 
     private Document parseXML(InputStream stream) throws Exception
@@ -78,5 +81,21 @@ public class XmlParse {
         }
 
         return doc;
+    }
+
+    public ArrayList<ParticipantVO> exportArr()
+    {
+        return list;
+    }
+
+    @Override
+    public void run()
+    {
+        try {
+            System.out.println("################Thread Start");
+            parseStart();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 }
